@@ -8,7 +8,7 @@ class RecaptchaController extends Controller
 {
 
     /**
-     * Validate re-captcha request
+     * Validate reCaptcha request
      * @param array $post
      * @return bool
      */

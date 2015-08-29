@@ -1,10 +1,10 @@
 <?php
 
 // reCaptcha shortcode
-$this->shortcode('simple-recaptcha', 'RecaptchaController@getShortcode');
+$plugin->shortcode('simple-recaptcha', 'RecaptchaController@getShortcode');
 
 // Settings page
-$this->page(array(
+$plugin->page(array(
     'title' => 'Simple Recaptcha',
     'parent' => 'options-general',
     'request.get' => 'RecaptchaController@settings',
@@ -12,11 +12,10 @@ $this->page(array(
 ));
 
 // Hook into WordPress login form
-$this->action('login_form', 'RecaptchaController@hookLoginForm');
+$plugin->action('login_form', 'RecaptchaController@hookLoginForm');
 
 // Inject scripts to the WordPress login page
-$this->action('login_enqueue_scripts', 'RecaptchaController@hookLoginScripts');
+$plugin->action('login_enqueue_scripts', 'RecaptchaController@hookLoginScripts');
 
 // Validate captcha on authentication
-$this->filter('authenticate', 'RecaptchaController@filterAuthenticate', 20, 3);
-
+$plugin->filter('authenticate', 'RecaptchaController@filterAuthenticate', 20, 3);

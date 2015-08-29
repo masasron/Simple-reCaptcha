@@ -8,3 +8,5 @@ You can dowbload it from [here](https://github.com/masasron/Shortcut)
 
 * Upload the entire `simple-recaptcha` folder to the `/wp-content/plugins/` directory.
 * Activate the plugin through the 'Plugins' menu in WordPress.
+
+![alt tag](http://s10.postimg.org/6inon7wcp/simple_recaptcha.jpg)

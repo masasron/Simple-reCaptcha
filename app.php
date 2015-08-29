@@ -13,8 +13,10 @@ $this->page(array(
 
 // Hook into WordPress login form
 $this->action('login_form', 'RecaptchaController@hookLoginForm');
+
 // Inject scripts to the WordPress login page
 $this->action('login_enqueue_scripts', 'RecaptchaController@hookLoginScripts');
+
 // Validate captcha on authentication
 $this->filter('authenticate', 'RecaptchaController@filterAuthenticate', 20, 3);
 

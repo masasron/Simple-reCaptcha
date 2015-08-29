@@ -8,11 +8,36 @@ class RecaptchaController extends Controller
 {
 
     /**
+     * Validate re-captcha request
+     * @param array $post
+     * @return bool
+     */
+    public static function validateRecaptcha() {
+
+        $recaptchaResponse = filter_input(INPUT_POST, 'g-recaptcha-response');
+
+        if (!$recaptchaResponse) {
+            // captcha was not used
+            return false;
+        }
+
+        $response = wp_remote_post('https://www.google.com/recaptcha/api/siteverify?response=' . $recaptchaResponse . '&secret=' . get_option('sr_secret'));
+        if (is_wp_error($response)) {
+            // some http error
+            return false;
+        }
+
+        // decode response & return success value
+        $json = json_decode($response['body'], true);
+        return isset($json['success']) ? $json['success'] : false;
+    }
+
+    /**
      * Handle the reCaptcha element view
      * @return string
      */
     public function getShortcode() {
-    	$sitekey = get_option('sr_sitekey');
+        $sitekey = get_option('sr_sitekey');
         return $this->view('captcha', compact('sitekey'));
     }
 
@@ -68,33 +93,6 @@ class RecaptchaController extends Controller
             return $this->shortcut->notice('Oops! invalid nonce value.', 'error');
         }
         $this->shortcut->updateOptions($request, ['sr_secret', 'sr_sitekey'])->notice('Settings were saved.');
-    }
-
-    /**
-     * Validate re-captcha request
-     * @param array $post
-     * @return bool
-     */
-    public static function validateRecaptcha() {
-        $recaptchaResponse = filter_input(INPUT_POST, 'g-recaptcha-response');
-        if (!$recaptchaResponse) {
-            /**
-             * Catpcha data was not sent, Invalid request.
-             */
-            return false;
-        }
-        $response = wp_remote_post('https://www.google.com/recaptcha/api/siteverify?response=' . $recaptchaResponse . '&secret=' . get_option('sr_secret'));
-        if (is_wp_error($response)) {
-            /**
-             * HTTP connection error
-             */
-            return false;
-        }
-        /**
-         * decode response & return success value
-         */
-        $json = json_decode($response['body'], true);
-        return isset($json['success']) ? $json['success'] : false;
     }
 
     /**

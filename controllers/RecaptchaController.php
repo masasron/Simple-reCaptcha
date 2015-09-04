@@ -130,7 +130,7 @@ class RecaptchaController extends Controller
      * @return bool
      */
     private function isActive() {
-        return (get_option('sr_sitekey', '') === '');
+        return (get_option('sr_sitekey', '') !== '');
     }
 
 }

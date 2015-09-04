@@ -9,7 +9,7 @@
                     ?>
                     <tr>
                         <th scope="row"><label for="<?php echo $field['name'] ?>"><?php echo $field['title'] ?></label></th>
-                        <td><input name="<?php echo $field['name'] ?>" autocomplete="off" required="" type="<?php echo $field['type'] ?>" id="<?php echo $field['name'] ?>" value="<?php echo $field['value'] ?>" class="regular-text"></td>
+                        <td><input name="<?php echo $field['name'] ?>" autocomplete="off" type="<?php echo $field['type'] ?>" id="<?php echo $field['name'] ?>" value="<?php echo $field['value'] ?>" class="regular-text"></td>
                     </tr>
                     <?php
                 endforeach;
@@ -22,7 +22,7 @@ if ( <span style="color:#df4b71">!</span><span style="color:#8be9ee;">class_exis
      <span style="color:#df4b71">!</span><span style="color:#d4b076;">RecaptchaController</span>::<span style="color:#a9b3cd">validateRecaptcha(</span><span style="color:#a9b3cd">)</span> ) {
 
     <span style="color:#707d9c">// Invalid captcha</span>
-    
+
 }
         </pre>
         <p class="submit">

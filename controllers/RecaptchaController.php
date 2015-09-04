@@ -8,6 +8,12 @@ class RecaptchaController extends Controller
 {
 
     /**
+     * Google reCAPTCHA api host uri
+     * @ver string
+     */
+    private static $api_host = 'https://www.google.com/recaptcha/api/siteverify';
+
+    /**
      * Validate reCaptcha request
      * @param array $post
      * @return bool
@@ -21,7 +27,12 @@ class RecaptchaController extends Controller
             return false;
         }
 
-        $response = wp_remote_post('https://www.google.com/recaptcha/api/siteverify?response=' . $recaptchaResponse . '&secret=' . get_option('sr_secret'));
+        $uri = add_query_arg([
+            'response' => $recaptchaResponse,
+            'secret' => get_option('sr_secret')], self::$api_host);
+
+        $response = wp_remote_post($uri);
+
         if (is_wp_error($response)) {
             // some http error
             return false;
@@ -47,7 +58,7 @@ class RecaptchaController extends Controller
      * @return mixed
      */
     public function filterAuthenticate($user) {
-        if ($this->server['REQUEST_METHOD'] === 'GET') {
+        if ($this->server['REQUEST_METHOD'] === 'GET' || !$this->isActive()) {
             return $user;
         }
         if (!self::validateRecaptcha()) {
@@ -100,6 +111,9 @@ class RecaptchaController extends Controller
      * @return void
      */
     public function hookLoginForm() {
+        if (!$this->isActive()) {
+            return;
+        }
         echo '<style>#login{width:352px;}.g-recaptcha{margin-bottom:10px;}</style>' . $this->getShortcode();
     }
 
@@ -109,6 +123,14 @@ class RecaptchaController extends Controller
      */
     public function hookLoginScripts() {
         wp_enqueue_script('recaptcha', 'https://www.google.com/recaptcha/api.js', false);
+    }
+
+    /**
+     * Check if sitekey was defined
+     * @return bool
+     */
+    private function isActive() {
+        return (get_option('sr_sitekey', '') === '');
     }
 
 }

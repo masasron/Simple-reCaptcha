@@ -1,8 +1,8 @@
 <?php
 
 /*
-  Plugin Name: Testing
-  Description: An empty shortcut plugin.
+  Plugin Name: Simple reCAPTCHA
+  Description: Protect your WordPress login page from robots.
   Version: 1.0.0
  */
 

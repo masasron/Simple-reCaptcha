@@ -1,10 +1,20 @@
 <?php
 
+/*
+  |--------------------------------------------------------------------------
+  | Plugin Setup
+  |--------------------------------------------------------------------------
+  |
+  | Here is where you can register all of the plugin functionality.
+  | Simply use shortcut to create pages shortcodes and much more.
+  |
+ */
+
 // reCaptcha shortcode
-$plugin->shortcode('simple-recaptcha', 'RecaptchaController@getShortcode');
+$this->shortcode('simple-recaptcha', 'RecaptchaController@getShortcode');
 
 // Settings page
-$plugin->page(array(
+$this->page(array(
     'title' => 'Simple Recaptcha',
     'parent' => 'options-general',
     'request.get' => 'RecaptchaController@settings',
@@ -12,10 +22,10 @@ $plugin->page(array(
 ));
 
 // Hook into WordPress login form
-$plugin->action('login_form', 'RecaptchaController@hookLoginForm');
+$this->action('login_form', 'RecaptchaController@hookLoginForm');
 
 // Inject scripts to the WordPress login page
-$plugin->action('login_enqueue_scripts', 'RecaptchaController@hookLoginScripts');
+$this->action('login_enqueue_scripts', 'RecaptchaController@hookLoginScripts');
 
 // Validate captcha on authentication
-$plugin->filter('authenticate', 'RecaptchaController@filterAuthenticate', 20, 3);
+$this->filter('authenticate', 'RecaptchaController@filterAuthenticate', 20, 3);
